@@ -1,31 +1,47 @@
 <template>
   <div class="flex flex-col space-y-3 w-full pt-10">
-    <div class="flex flex-col-reverse xl:flex-row justify-center lg:justify-end items-center gap-y-1 w-full py-2">
+    <div
+        class="flex flex-col-reverse xl:flex-row justify-center lg:justify-end items-center gap-y-4 gap-x-3 w-full py-2">
 
-      <div v-if="isVisibleSearchTermOnPostsInput"
-           class="flex justify-center sm:justify-end items-center w-full h-12">
-        <search-bar searchKey="searchPostOnStore"/>
+      <div class="flex justify-end items-end space-x-3 w-full" v-if="dashboardStore.haveData">
+
+        <div v-if="isVisibleSearchTermOnPostsInput"
+             class="flex justify-center sm:justify-end items-center lg:-mx-5 -mt-4">
+          <search-bar searchKey="searchPostOnStore"/>
+        </div>
+        <div v-else class="pt-12"></div>
+
+        <button
+            @click="toggleSearchTermOnPostInput(!isVisibleSearchTermOnPostsInput)"
+            class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100 h-12 px-3 gap-x-2 text-xs xl:text-base w-32 lg:w-48">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+          <span v-if="isVisibleSearchTermOnPostsInput">Hide input</span>
+          <span v-else>Open search input</span>
+        </button>
+
       </div>
 
-      <div class="flex justify-center sm:justify-end items-center space-x-3 w-full xl:w-auto">
+      <div class="flex justify-between sm:justify-end items-center space-x-3 w-full xl:w-auto">
         <button
-            v-if="dashboardStore.haveData"
-            @click="toggleSearchTermOnPostInput(!isVisibleSearchTermOnPostsInput)"
-            class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100 h-12 px-3 gap-x-2 text-xs xl:text-base w-48">
-          <i class="fa-solid fa-magnifying-glass-chart"></i>
-          <span v-if="isVisibleSearchTermOnPostsInput">Hide search button</span>
-          <span v-else>Search within data</span>
+            @click="toggleLiveDataCheckbox"
+            class="flex items-center justify-center transition-colors duration-200 bg-green-500 border rounded-lg h-12 px-3 gap-x-2 text-xs xl:text-base text-white w-56 z-10">
+          <span class="inline-flex items-center cursor-pointer text-white">
+            <input type="checkbox" class="form-checkbox h-5 w-5 text-white"
+                   v-model="dashboardStore.isLiveData">
+            <span class="ml-2 text-white">Live Data</span>
+          </span>
         </button>
+
         <button
-            @click="toggleCheckbox"
-            class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100 h-12 px-3 gap-x-2 text-xs xl:text-base w-56">
-          <label class="inline-flex items-center cursor-pointer" @click="toggleCheckbox">
+            @click="toggleIncludeSearchedItemsCheckbox"
+            class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg h-12 px-3 gap-x-2 text-xs xl:text-base w-56 z-10">
+          <span class="inline-flex items-center cursor-pointer">
             <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"
-                   v-model="dashboardStore.includeSearchedItems" :checked="dashboardStore.includeSearchedItems"
-                   @change="toggleCheckbox">
+                   v-model="dashboardStore.includeSearchedItems"/>
             <span class="ml-2 text-gray-700">Add searched items </span>
-          </label>
+          </span>
         </button>
+
       </div>
 
     </div>
@@ -125,9 +141,17 @@ export default defineComponent({
       isVisibleSearchTermOnPostsInput.value = value;
     };
 
-    const toggleCheckbox = () => {
+    const toggleIncludeSearchedItemsCheckbox = () => {
       dashboardStore.toggleIncludeSearchedItems(!dashboardStore.includeSearchedItems);
     };
+
+    const toggleLiveDataCheckbox = () => {
+      dashboardStore.toggleLiveData(!dashboardStore.isLiveData);
+      if (dashboardStore.isLiveData === true) {
+        dashboardStore.toggleIncludeSearchedItems(true);
+        dashboardStore.startLiveDataFetching();
+      }
+    }
 
     return {
       dashboardStore,
@@ -141,7 +165,8 @@ export default defineComponent({
       toggleListType,
       toggleSortModal,
       toggleSearchTermOnPostInput,
-      toggleCheckbox,
+      toggleIncludeSearchedItemsCheckbox,
+      toggleLiveDataCheckbox
     };
   },
 });
