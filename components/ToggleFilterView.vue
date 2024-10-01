@@ -30,8 +30,7 @@
 
     </div>
 
-
-    <div class=" flex flex-col-reverse lg:flex-row lg:justify-between items-center space-x-2 w-full">
+    <div class="flex flex-col-reverse lg:flex-row lg:justify-between items-center space-x-2 w-full">
       <div
           class="inline-flex justify-center rounded-lg bg-white border divide-x shadow-sm w-full lg:w-2/3 h-12">
         <button
@@ -63,6 +62,9 @@
     </div>
 
   </div>
+
+  <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>
+
 </template>
 
 <script>
@@ -126,7 +128,6 @@ export default defineComponent({
     const toggleCheckbox = () => {
       dashboardStore.toggleIncludeSearchedItems(!dashboardStore.includeSearchedItems);
     };
-
 
     return {
       dashboardStore,
