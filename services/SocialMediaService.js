@@ -11,7 +11,7 @@ export default class DashboardServices {
     async getTwitterPosts(params) {
         const queryString = this.createQueryString({
             query: params.keyword || '',
-            section: 'top',
+            section: 'latest',
         });
 
         const url = `${this.config.API_TWITTER_URL}${queryString}`;
@@ -28,14 +28,13 @@ export default class DashboardServices {
             throw new Error(`Error fetching Twitter posts: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log(data)
-        return data;
+        return await response.json();
     }
 
     async getInstagramPosts(params) {
         const queryString = this.createQueryString({
             keyword: params.keyword || '',
+            recent_posts: true,
         });
         const url = `${this.config.API_INSTAGRAM_URL}${queryString}`;
         const response = await fetch(url, {
@@ -49,10 +48,7 @@ export default class DashboardServices {
         if (!response.ok) {
             throw new Error(`Error fetching Instagram posts: ${response.statusText}`);
         }
-        const data = await response.json();
-        console.log(data)
-
-        return data;
+        return await response.json();
     }
 
     async getFacebookPosts(params) {
@@ -74,8 +70,6 @@ export default class DashboardServices {
             throw new Error(`Error fetching Twitter posts: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        console.log(data)
-        return data;
+        return await response.json();
     }
 }
