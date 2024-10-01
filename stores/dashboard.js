@@ -204,17 +204,27 @@ export const useDashboardStore = defineStore('dashboard', {
         },
 
         filteredAndSearchedPosts: (state) => {
-            const filteredData = state.filteredPosts // this ile erişim
+            const filteredData = state.filteredPosts;
 
             // Arama terimi boşsa, filtrelenmiş datayı döndür
             if (!state.searchPostTerm) {
-                return filteredData
+                return filteredData.map(post => ({
+                    postDetail: post.postDetail,
+                    userData: post.userData,
+                }));
             }
 
-            // Arama terimine göre içerik araması yap
-            return filteredData.filter((post) =>
-                post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
-            )
+            // Arama terimine göre içerik araması yap ve yalnızca postDetail ve userData döndür
+            return filteredData
+                .filter((post) =>
+                    post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
+                )
+                .map(post => ({
+                    postDetail: post.postDetail,
+                    userData: post.userData,
+                    source: post.source,
+                    count: post.count,
+                }));
         },
     }
 })

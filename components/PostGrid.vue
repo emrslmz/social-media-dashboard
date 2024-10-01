@@ -1,7 +1,5 @@
 <template>
   <div class="flex flex-wrap justify-center items-center mx-auto" v-if="dashboardStore.filteredPosts.length">
-
-
     <div v-for="(post, index) in dashboardStore.filteredPosts"
          :key="index"
          @click="togglePostDetailModal(true, post)">
@@ -27,25 +25,6 @@ export default defineComponent({
     const isVisiblePostDetailModal = ref(false);
     const selectedData = ref(null);
 
-    const getIconClass = (source) => {
-      switch (source) {
-        case 'twitter':
-          return 'fa-twitter';
-        case 'instagram':
-          return 'fa-instagram';
-        default:
-          return 'fa-facebook';
-      }
-    };
-
-    const truncateText = (str, maxLength) => {
-      return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
-    };
-
-    const isValidImage = (url) => {
-      return /\.(png|jpg|jpeg|gif|bmp|webp)$/i.test(url);
-    };
-
     const togglePostDetailModal = (value, data) => {
       isVisiblePostDetailModal.value = value;
       selectedData.value = data;
@@ -54,9 +33,6 @@ export default defineComponent({
     return {
       dashboardStore,
       formatDate,
-      getIconClass,
-      truncateText,
-      isValidImage,
       isVisiblePostDetailModal,
       togglePostDetailModal,
       selectedData,

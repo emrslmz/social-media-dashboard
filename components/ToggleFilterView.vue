@@ -30,7 +30,7 @@
 
         <button
             v-if="dashboardStore.haveData"
-            @click="toggleSearchKeyOnPostBarModal(true)"
+            @click="toggleSearchTermOnPostModal(true)"
             class="flex items-center justify-center w-full px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100">
           <i class="fa-solid fa-magnifying-glass-chart"></i>
           <span>Search within data</span>
@@ -54,8 +54,8 @@
 
       <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>
 
-      <search-term-on-posts v-if="isVisibleSearchKeyOnPostBarModal"
-                            @close="toggleSearchKeyOnPostBarModal(false)"/>
+      <search-term-on-posts v-if="isVisibleSearchTermOnPostModal"
+                            @close="toggleSearchTermOnPostModal(false)"/>
 
     </div>
 
@@ -77,7 +77,7 @@ export default defineComponent({
     const dashboardStore = useDashboardStore();
 
     const isVisibleSortModal = ref(false);
-    const isVisibleSearchKeyOnPostBarModal = ref(false);
+    const isVisibleSearchTermOnPostModal = ref(false);
     const filters = ['View all', 'Twitter', 'Instagram', 'Facebook'];
 
     const filterActiveClass = (type) => {
@@ -113,8 +113,8 @@ export default defineComponent({
       isVisibleSortModal.value = value;
     };
 
-    const toggleSearchKeyOnPostBarModal = (value) => {
-      isVisibleSearchKeyOnPostBarModal.value = value;
+    const toggleSearchTermOnPostModal = (value) => {
+      isVisibleSearchTermOnPostModal.value = value;
     };
 
     const toggleCheckbox = () => {
@@ -125,14 +125,14 @@ export default defineComponent({
     return {
       dashboardStore,
       isVisibleSortModal,
-      isVisibleSearchKeyOnPostBarModal,
+      isVisibleSearchTermOnPostModal,
       filters,
       filterActiveClass,
       postCount,
       toggleFilterType,
       toggleListType,
       toggleSortModal,
-      toggleSearchKeyOnPostBarModal,
+      toggleSearchTermOnPostModal,
       toggleCheckbox,
     };
   },

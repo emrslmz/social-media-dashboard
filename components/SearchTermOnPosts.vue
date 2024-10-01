@@ -19,10 +19,13 @@
 
           <div v-if="dashboardStore.searchPostTerm !== ''">
             <div v-if="dashboardStore.filteredAndSearchedPosts.length">
-              <post-grid-item :post-data="dashboardStore.filteredAndSearchedPosts" :is-full="true" />
+              <div v-for="(post, index) in dashboardStore.filteredAndSearchedPosts" :key="index">
+                <post-grid-item :post-data="post"/>
+
+              </div>
             </div>
             <div v-else>
-              The word {{ dashboardStore.searchPostTerm}} you were looking for was not found in the data you filtered.
+              The word {{ dashboardStore.searchPostTerm }} you were looking for was not found in the data you filtered.
             </div>
           </div>
           <div v-else>
@@ -40,9 +43,10 @@
 <script>
 import {useDashboardStore} from '~/stores/dashboard.js'
 import SearchBar from "~/components/SearchBar.vue";
+import PostGridItem from "~/components/PostGridItem.vue";
 
 export default {
-  components: {SearchBar},
+  components: {SearchBar, PostGridItem},
   setup(props, {emit}) {
     const dashboardStore = useDashboardStore();
 

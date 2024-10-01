@@ -36,13 +36,14 @@ const props = defineProps({
 
 const searchAction = async () => {
 
-
-  if (searchText.value.length >= 3 && dashboardStore.loading === false) {
+  if (searchText.value.length >= 1 && dashboardStore.loading === false) {
     if (props.searchKey === 'searchPostOnStore') {
       await dashboardStore.setSearchTermForOnPost(searchText.value)
     } else if (props.searchKey === 'getPostFromApi') {
       await dashboardStore.fetchPosts({keyword: searchText.value});
     }
+  } else {
+    alert('The searched word must be at least 2 characters');
   }
 };
 

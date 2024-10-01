@@ -1,6 +1,6 @@
 <template>
-  <div :class="props.isFull ? 'w-full' : 'w-full sm:w-[400px] xl:w-[270px]'"
-       class="bg-white p-4 rounded-lg h-[530px] my-3 mx-2 border cursor-pointer">
+  <div :class="props.isFull ? 'w-full  h-[530px]' : 'w-full sm:w-[400px] xl:w-[270px]  h-[450px]'"
+       class="bg-white p-4 rounded-lg my-3 mx-2 border cursor-pointer">
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center space-x-2">
         <img v-if="isValidImage(props.postData.userData.profilePicture)"
