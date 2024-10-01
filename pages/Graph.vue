@@ -22,7 +22,7 @@
     <div v-else class="text-center">
       <p>You must search to see the charts.</p>
 
-      <nuxt-link to="/dashboard" class="text-indigo-500 focus:outline-none">
+      <nuxt-link to="/" class="text-indigo-500 focus:outline-none">
         Go to Dashboard page for search
       </nuxt-link>
 
