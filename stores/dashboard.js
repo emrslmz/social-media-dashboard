@@ -31,9 +31,10 @@ export const useDashboardStore = defineStore('dashboard', {
             return await new DashboardServices().getFacebookPosts(params);
         },
 
-        async getInstagramPosts(params) {
-            return await new DashboardServices().getInstagramPosts(params);
-        },
+        // instagram api request expired
+        // async getInstagramPosts(params) {
+        //     return await new DashboardServices().getInstagramPosts(params);
+        // },
 
         async fetchPosts(params) {
             this.loading = true;
@@ -82,6 +83,7 @@ export const useDashboardStore = defineStore('dashboard', {
                 count: this.twitterPostCount,
             })) || [];
         },
+
         mapFacebookPosts(posts) {
             return posts.map(post => ({
                 postDetail: {
@@ -102,6 +104,7 @@ export const useDashboardStore = defineStore('dashboard', {
                 count: this.facebookPostCount,
             })) || [];
         },
+
         mapInstagramPosts(posts) {
             return posts.media.map(post => ({
                 postDetail: {
@@ -158,24 +161,24 @@ export const useDashboardStore = defineStore('dashboard', {
         },
 
         setStartDate(date) {
-            if (date && this.isValidDate(date)) { // Check if the date is valid
-                this.sortStartDate = new Date(date).toISOString().split('T')[0]; // Format as "yyyy-MM-dd"
+            if (date && this.isValidDate(date)) {
+                this.sortStartDate = new Date(date).toISOString().split('T')[0];
             } else {
-                this.sortStartDate = null; // Reset or handle the invalid case
+                this.sortStartDate = null;
             }
         },
 
         setEndDate(date) {
-            if (date && this.isValidDate(date)) { // Check if the date is valid
-                this.sortEndDate = new Date(date).toISOString().split('T')[0]; // Format as "yyyy-MM-dd"
+            if (date && this.isValidDate(date)) {
+                this.sortEndDate = new Date(date).toISOString().split('T')[0];
             } else {
-                this.sortEndDate = null; // Reset or handle the invalid case
+                this.sortEndDate = null;
             }
         },
 
         isValidDate(date) {
             const parsedDate = new Date(date);
-            return !isNaN(parsedDate.getTime()); // Returns true if the date is valid
+            return !isNaN(parsedDate.getTime());
         },
 
 
@@ -196,28 +199,28 @@ export const useDashboardStore = defineStore('dashboard', {
 
         filteredPosts: (state) => {
             if (!state.posts) {
-                return []; // Return empty array if posts is null
+                return [];
             }
 
             const filteredData = state.posts.filter((post) => {
                 switch (state.filterType) {
                     case 1:
-                        return true; // All data
+                        return true; // all data
                     case 2:
-                        return post.source === 'twitter'; // Only Twitter
+                        return post.source === 'twitter'; // only Twitter
                     case 3:
-                        return post.source === 'instagram'; // Only Instagram
+                        return post.source === 'instagram'; // only Instagram
                     case 4:
-                        return post.source === 'facebook'; // Only Facebook
+                        return post.source === 'facebook'; // only Facebook
                     default:
-                        return true; // Default to all data
+                        return true;
                 }
             }).filter(post => {
                 const postDate = new Date(post.postDetail.date);
                 const startDate = state.sortStartDate ? new Date(state.sortStartDate) : null;
                 const endDate = state.sortEndDate ? new Date(state.sortEndDate) : null;
 
-                // Filter based on start and end dates
+                // filter for date
                 if (startDate && endDate) {
                     return postDate >= startDate && postDate <= endDate;
                 } else if (startDate) {
@@ -225,10 +228,10 @@ export const useDashboardStore = defineStore('dashboard', {
                 } else if (endDate) {
                     return postDate <= endDate;
                 }
-                return true; // No date filter applied
+                return true;
             });
 
-            // Search term filtering
+            // filter for term
             if (state.searchPostTerm) {
                 return filteredData.filter(post =>
                     post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
@@ -261,30 +264,6 @@ export const useDashboardStore = defineStore('dashboard', {
 
                 return state.sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
             });
-        },
-
-        filteredAndSearchedPosts: (state) => {
-            const filteredData = state.filteredPosts;
-
-            // Arama terimi boşsa, filtrelenmiş datayı döndür
-            if (!state.searchPostTerm) {
-                return filteredData.map(post => ({
-                    postDetail: post.postDetail,
-                    userData: post.userData,
-                }));
-            }
-
-            // Arama terimine göre içerik araması yap ve yalnızca postDetail ve userData döndür
-            return filteredData
-                .filter((post) =>
-                    post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
-                )
-                .map(post => ({
-                    postDetail: post.postDetail,
-                    userData: post.userData,
-                    source: post.source,
-                    count: post.count,
-                }));
         },
 
     }
