@@ -22,8 +22,8 @@
     <div v-else class="text-center">
       <p>You must search to see the charts.</p>
 
-      <nuxt-link to="/" class="text-indigo-500 focus:outline-none">
-      Go to Dashboard page for search
+      <nuxt-link to="/dashboard" class="text-indigo-500 focus:outline-none">
+        Go to Dashboard page for search
       </nuxt-link>
 
     </div>
@@ -32,8 +32,8 @@
 
 <script setup>
 import {computed} from 'vue';
-import {useDashboardStore} from '@/stores/dashboard'; // Adjust the import path accordingly
-import PostChart from '@/components/PostChart.vue'; // Adjust the import path accordingly
+import {useDashboardStore} from '@/stores/dashboard';
+import PostChart from '@/components/PostChart.vue';
 
 const dashboardStore = useDashboardStore();
 
@@ -42,7 +42,7 @@ const postCounts = computed(() => {
   const dates = [];
 
   dashboardStore.posts.forEach(post => {
-    const date = new Date(post.postDetail.date).toLocaleDateString(); // Adjust the format as needed
+    const date = new Date(post.postDetail.date).toLocaleDateString();
     const index = dates.indexOf(date);
 
     if (index > -1) {
@@ -59,20 +59,20 @@ const postCounts = computed(() => {
   };
 });
 
-// Compute data for likes over time
+// compute data for likes
 const likeCounts = computed(() => {
   const counts = [];
   const likeDates = [];
 
   dashboardStore.posts.forEach(post => {
-    const date = new Date(post.postDetail.date).toLocaleDateString(); // Adjust the format as needed
+    const date = new Date(post.postDetail.date).toLocaleDateString();
     const index = likeDates.indexOf(date);
 
     if (index > -1) {
-      counts[index] += post.postDetail.likes; // Sum likes
+      counts[index] += post.postDetail.likes;
     } else {
       likeDates.push(date);
-      counts.push(post.postDetail.likes); // Initialize likes count
+      counts.push(post.postDetail.likes);
     }
   });
 
@@ -82,9 +82,3 @@ const likeCounts = computed(() => {
   };
 });
 </script>
-
-<style scoped>
-h2 {
-  margin-top: 2rem;
-}
-</style>
