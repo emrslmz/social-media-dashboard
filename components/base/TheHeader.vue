@@ -5,9 +5,16 @@
         <i class="fa-solid fa-bars text-xl"></i>
       </button>
 
-      <nuxt-link v-if="dashboardStore.haveData" to="/Graph"  class="text-xs text-indigo-500 focus:outline-none px-5">
-        Statistics are ready! Click to review. Go to Graph page.
+      <nuxt-link v-if="dashboardStore.haveData && $route.path !== '/Graph'" to="/Graph"
+                 class="text-xs text-indigo-500 focus:outline-none px-5">
+        <i class="fa-solid fa-circle"></i> Stats ready! Click to review. Go to Graph.
       </nuxt-link>
+
+      <a v-if="dashboardStore.isLiveData"
+         class="text-xs text-green-500 focus:outline-none px-5">
+        <i class="fa-solid fa-circle"></i> Live monitoring active. Updates every 60s.
+      </a>
+
 
     </div>
   </div>
