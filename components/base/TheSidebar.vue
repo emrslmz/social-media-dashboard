@@ -15,7 +15,7 @@
     </div>
 
 
-    <nav class="mt-10">
+    <nav class="mt-10" @click="closeSidebar()">
       <nuxt-link to="/" :class="isActiveRouteClass('index')"
                  class="flex items-center px-6 py-2 mt-4">
         <i class="fa-solid fa-gauge text-xl"></i>
