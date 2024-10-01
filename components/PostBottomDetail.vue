@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3 sm:flex sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+  <div class="mt-3 sm:flex sm:items-center sm:justify-between space-y-3 sm:space-y-0 pb-40">
     <div class="text-sm text-gray-500">
       Page <span class="font-medium text-gray-700">1 of 1</span>
     </div>

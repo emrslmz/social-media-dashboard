@@ -2,7 +2,7 @@
   <div class="flex flex-wrap justify-center items-center mx-auto" v-if="dashboardStore.filteredPosts.length">
     <div v-for="(post, index) in dashboardStore.filteredPosts"
          :key="index"
-         @click="togglePostDetailModal(true, post)">
+         @click="togglePostDetailModal(true, post)" class="w-full sm:w-auto">
       <post-grid-item :post-data="post"/>
     </div>
   </div>
