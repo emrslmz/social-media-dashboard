@@ -17,6 +17,7 @@
     "api-core-service": "^1.0.9",
     "api-service-core": "^0.60.26",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.4",
     "nuxt": "^3.13.2",
     "pinia": "^2.2.2",
     "vue": "latest",
