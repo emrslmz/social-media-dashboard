@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col space-y-2 mt-2">
+  <div class="flex flex-col justify-end items-end space-y-2 mt-2 w-full">
     <div class="flex justify-end items-center w-full">
       <button
           @click="toggleCheckbox"
@@ -14,7 +14,8 @@
     </div>
 
     <div class="flex flex-col 2xl:flex-row justify-between space-y-2 w-full rounded-lg">
-      <div class="inline-flex justify-center rounded-lg bg-white border divide-x shadow-sm rtl:flex-row-reverse xl:w-1/2">
+      <div
+          class="inline-flex justify-center rounded-lg bg-white border divide-x shadow-sm rtl:flex-row-reverse xl:w-1/2">
         <button
             v-for="(label, index) in filters"
             :key="index"
@@ -25,16 +26,17 @@
         </button>
       </div>
 
-
       <div class="flex flex-col sm:flex-row justify-end items-center gap-x-2 space-y-2 sm:space-y-0.5 lg:space-y-0">
 
-        <button
-            v-if="dashboardStore.haveData"
-            @click="toggleSearchTermOnPostModal(true)"
-            class="flex items-center justify-center w-full px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100">
-          <i class="fa-solid fa-magnifying-glass-chart"></i>
-          <span>Search within data</span>
-        </button>
+        <div v-if="dashboardStore.haveData">
+          <button
+              @click="toggleSearchTermOnPostInput(!isVisibleSearchTermOnPostsInput)"
+              class="flex items-center justify-center w-full px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-100">
+            <i class="fa-solid fa-magnifying-glass-chart"></i>
+            <span v-if="isVisibleSearchTermOnPostsInput">Hide search button</span>
+            <span v-else>Search within data</span>
+          </button>
+        </div>
 
         <div class="flex justify-center items-center w-full space-x-2 sm:w-auto">
           <button
@@ -50,15 +52,21 @@
             <span>{{ dashboardStore.isListType ? 'List view' : 'Grid view' }}</span>
           </button>
         </div>
+
+
       </div>
-
-      <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>
-
-      <search-term-on-posts v-if="isVisibleSearchTermOnPostModal"
-                            @close="toggleSearchTermOnPostModal(false)"/>
 
     </div>
 
+    <div v-if="isVisibleSearchTermOnPostsInput" class="flex justify-end items-center w-full pt-1">
+      <search-bar searchKey="searchPostOnStore"/>
+    </div>
+
+
+    <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>
+
+    <search-term-on-posts v-if="isVisibleSearchTermOnPostModal"
+                          @close="toggleSearchTermOnPostInput(false)"/>
   </div>
 </template>
 
@@ -78,6 +86,7 @@ export default defineComponent({
 
     const isVisibleSortModal = ref(false);
     const isVisibleSearchTermOnPostModal = ref(false);
+    const isVisibleSearchTermOnPostsInput = ref(false);
     const filters = ['View all', 'Twitter', 'Instagram', 'Facebook'];
 
     const filterActiveClass = (type) => {
@@ -113,8 +122,8 @@ export default defineComponent({
       isVisibleSortModal.value = value;
     };
 
-    const toggleSearchTermOnPostModal = (value) => {
-      isVisibleSearchTermOnPostModal.value = value;
+    const toggleSearchTermOnPostInput = (value) => {
+      isVisibleSearchTermOnPostsInput.value = value;
     };
 
     const toggleCheckbox = () => {
@@ -126,13 +135,14 @@ export default defineComponent({
       dashboardStore,
       isVisibleSortModal,
       isVisibleSearchTermOnPostModal,
+      isVisibleSearchTermOnPostsInput,
       filters,
       filterActiveClass,
       postCount,
       toggleFilterType,
       toggleListType,
       toggleSortModal,
-      toggleSearchTermOnPostModal,
+      toggleSearchTermOnPostInput,
       toggleCheckbox,
     };
   },
