@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-wrap justify-center items-center mx-auto" v-if="dashboardStore.filteredPosts">
-    <div class="bg-white p-4 rounded-lg h-[430px] w-full sm:w-[400px] xl:w-[270px] my-3 mx-2 border"
+  <div class="flex flex-wrap justify-center items-center mx-auto" v-if="dashboardStore.filteredPosts.length">
+    <div class="bg-white p-4 rounded-lg h-[500px] w-full sm:w-[400px] xl:w-[270px] my-3 mx-2 border cursor-pointer"
          v-for="(post, index) in dashboardStore.filteredPosts"
          :key="index"
          @click="togglePostDetailModal(true, post)">
@@ -23,11 +23,12 @@
       </div>
       <!--      componentlere ayır, mdal ekleeeeeeee-->
       <div class="mb-4">
-        <p class="text-gray-700">{{ truncateText(post.postDetail.content, 30) }} <span
+        <p class="text-gray-700">{{ truncateText(post.postDetail.content, 25) }} <span
             class="text-gray-500 cursor-pointer">see more</span></p>
       </div>
       <div class="mb-4">
-        <img v-if="post.postDetail.media !== null && isValidImage(post.postDetail.media)" :src="post.postDetail.media" alt="Post Image"
+        <img v-if="post.postDetail.media !== null || isValidImage(post.postDetail.media)" :src="post.postDetail.media"
+             alt="Post Image"
              class="w-full h-48 object-cover rounded-md">
         <p v-else class="h-48 flex justify-center items-center">There is no image.</p>
       </div>

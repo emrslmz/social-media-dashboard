@@ -32,8 +32,8 @@
       </th>
     </tr>
     </thead>
-    <tbody class="divide-y divide-gray-200" v-if="dashboardStore.filteredPosts">
-    <tr class="cursor-pointer" v-for="(post, index) in dashboardStore.filteredPosts" :key="index" @click="togglePostDetailModal(true, post)">
+    <tbody class="divide-y divide-gray-200" v-if="dashboardStore.filteredPosts.length">
+    <tr v-for="(post, index) in dashboardStore.filteredPosts" :key="index">
       <td class="px-4 py-4 text-sm font-medium whitespace-nowrap text-left">
         <div>
           <p class="font-medium text-gray-800">
@@ -56,7 +56,7 @@
         </div>
       </td>
       <td class="px-4 py-4 text-sm whitespace-nowrap">
-        <div>
+        <div @click="togglePostDetailModal(true, post)">
           <p class="text-gray-700">{{ truncateText(post.postDetail.content, 50) }}</p>
           <p class="text-gray-500 cursor-pointer">see more</p>
         </div>
@@ -74,7 +74,8 @@
       </td>
 
       <td class="px-4 py-4 text-sm whitespace-nowrap">
-        <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
+        <button @click="togglePostDetailModal(true, post)"
+                class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
       </td>
@@ -83,7 +84,7 @@
     <tbody class="divide-y divide-gray-200"
            v-else>
     <tr class="w-full">
-      <td colspan="6" class="text-center text-gray-500 py-4 ">No data was found matching your filter.</td>
+      <td colspan="6" class="text-center text-gray-500 py-4">No data was found matching your filter.</td>
     </tr>
     </tbody>
   </table>

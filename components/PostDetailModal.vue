@@ -3,18 +3,17 @@
       class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 z-50">
     <div
         class="h-full sm:h-5/6 w-full sm:w-2/3 md:w-3/5 lg:w-2/4 sm:rounded-2xl bg-white py-5">
-      <div class="flex justify-end px-5">
-        <p @click="onClose()" class="cursor-pointer">
-          <i class="fa-solid fa-xmark text-2xl"></i>
-        </p>
-      </div>
-      <div class="h-[70%] overflow-y-auto pb-10">
-
+      <div class="h-full w-full overflow-y-auto px-5">
+        <div class="flex justify-end px-5">
+          <p @click="onClose()" class="cursor-pointer">
+            <i class="fa-solid fa-xmark text-2xl"></i>
+          </p>
+        </div>
 
         <div class="flex flex-col justify-start items-start space-y-4 p-4 w-full">
           <h2 class="text-xl font-semibold mb-2">Post Detail</h2>
 
-          <div>
+          <div class="w-full border rounded-lg p-5">
             <div class="flex flex-col space-y-2">
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-2">
@@ -34,10 +33,12 @@
             </div>
 
             <div class="mb-4">
-              <img v-if="props.selectedData.postDetail.media !== null" :src="props.selectedData.postDetail.media"
-                   alt="Post Image"
-                   class="w-full h-[300px] object-contain rounded-md">
-              <p v-else class="h-48 flex justify-center items-center">There is no image.</p>
+              <img
+                  v-if="props.selectedData.postDetail.media !== null || isValidImage(props.selectedData.postDetail.media)"
+                  :src="props.selectedData.postDetail.media"
+                  alt="Post Image"
+                  class="w-full h-[300px] object-contain rounded-md">
+              <p v-else class="h-[300px] flex justify-center items-center">There is no image.</p>
             </div>
             <div class="flex items-center justify-between text-gray-500">
               <div class="flex items-center space-x-2">
@@ -68,21 +69,11 @@
 
       </div>
 
-      <div class="flex justify-end items-center space-x-3 w-full">
-        <button
-            @click="onClose"
-            class="flex items-center justify-center w-full px-12 py-2 text-sm text-gray-700 transition-colors duration-200 bg-gray-100 border rounded-lg gap-x-2 sm:w-auto hover:bg-gray-200">
-          <i class="fa-solid fa-xmark"></i>
-          <span>Close</span>
-        </button>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {ref} from 'vue';
-import {useDashboardStore} from '@/stores/dashboard';
 import {formatDate} from "~/utils/formatDate.js";
 
 export default {

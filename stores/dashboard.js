@@ -13,6 +13,8 @@ export const useDashboardStore = defineStore('dashboard', {
         loading: false,
         error: null,
 
+        searchPostTerm: '',
+
         includeSearchedItems: false,
         sortCriteria: 'date',
         sortDirection: 'asc',
@@ -21,24 +23,25 @@ export const useDashboardStore = defineStore('dashboard', {
         async getTwitterPosts(params) {
             return await new DashboardServices().getTwitterPosts(params);
         },
-        async getInstagramPosts(params) {
-            return await new DashboardServices().getInstagramPosts(params);
-        },
 
         async getFacebookPosts(params) {
             return await new DashboardServices().getFacebookPosts(params);
         },
 
+        async getInstagramPosts(params) {
+            return await new DashboardServices().getInstagramPosts(params);
+        },
+
         async fetchPosts(params) {
             this.loading = true;
-            const [twitterPosts, facebookPosts] = await Promise.all([
+            const [twitterPosts, facebookPosts, instagramPosts] = await Promise.all([
                 this.getTwitterPosts(params),
                 this.getFacebookPosts(params),
             ]);
 
             const newTwitterPosts = this.mapTwitterPosts(twitterPosts.results);
             const newFacebookPosts = this.mapFacebookPosts(facebookPosts.results);
-            const newPosts = [...newTwitterPosts, ...newFacebookPosts];
+            const newPosts = [...newTwitterPosts, ...newFacebookPosts]
 
             if (this.includeSearchedItems) {
                 this.posts = [...newPosts, ...this.posts];
@@ -96,6 +99,26 @@ export const useDashboardStore = defineStore('dashboard', {
                 count: this.facebookPostCount,
             })) || [];
         },
+        mapInstagramPosts(posts) {
+            return posts.media.map(post => ({
+                postDetail: {
+                    date: new Date(post.timestamp * 1000),
+                    content: post.message,
+                    media: post.video_subtitles_uri ? post.video_subtitles_uri : null,
+                    likes: post.like_count,
+                    shares: post.reshare_count,
+                    comments: post.comment_count,
+                },
+                userData: {
+                    userId: post.user.id,
+                    username: post.user.username,
+                    profilePicture: post.user.profile_pic_url ? post.author.profile_pic_url : null,
+                    profileUrl: post.user.url ? post.user.url : null,
+                },
+                source: 'facebook',
+                count: this.instagramPostCount,
+            })) || [];
+        },
 
         async deletePosts() {
             this.loading = true;
@@ -126,12 +149,17 @@ export const useDashboardStore = defineStore('dashboard', {
         toggleIncludeSearchedItems(value) {
             this.includeSearchedItems = value;
         },
+
+        setSearchTermForOnPost(term) {
+            this.searchPostTerm = term
+        },
     },
 
     getters: {
         haveData: (state) => {
             return state.posts && state.posts.length > 0;
         },
+
         filteredPosts: (state) => {
             if (!state.posts) {
                 return []; // posts null ise boş dizi döndür
@@ -173,6 +201,20 @@ export const useDashboardStore = defineStore('dashboard', {
 
                 return state.sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
             });
+        },
+
+        filteredAndSearchedPosts: (state) => {
+            const filteredData = state.filteredPosts // this ile erişim
+
+            // Arama terimi boşsa, filtrelenmiş datayı döndür
+            if (!state.searchPostTerm) {
+                return filteredData
+            }
+
+            // Arama terimine göre içerik araması yap
+            return filteredData.filter((post) =>
+                post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
+            )
         },
     }
 })

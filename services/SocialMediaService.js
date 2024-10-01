@@ -35,10 +35,10 @@ export default class DashboardServices {
     }
 
     async getInstagramPosts(params) {
-        const end_cursor = '0'; // Default value if not used
-        const next_page = '1';
-
-        const url = `${this.config.API_INSTAGRAM_URL}/${params.keyword}/${end_cursor}/${next_page}`;
+        const queryString = this.createQueryString({
+            keyword: params.keyword || '',
+        });
+        const url = `${this.config.API_INSTAGRAM_URL}${queryString}`;
         const response = await fetch(url, {
             method: 'GET',
             headers: {

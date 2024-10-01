@@ -1,6 +1,7 @@
 <template>
-  <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 pb-40 relative">
+  <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 relative h-screen">
     <div class="container px-6 py-8 mx-auto">
+
       <div class="sm:flex sm:items-center sm:justify-between">
         <div>
           <div class="flex items-center gap-x-3">
@@ -12,30 +13,30 @@
             box.</p>
         </div>
 
-        <search-bar key="defaultSide" v-if="dashboard.haveData"/>
+        <search-bar searchKey="getPostFromApi" v-if="dashboard.haveData"/>
 
       </div>
 
       <toggle-filter-view/>
 
-      <div class="border border-gray-200 md:rounded-lg bg-white my-3">
-        <div v-if="dashboard.haveData" class="max-h-[600px] overflow-y-auto">
+      <div class="border border-gray-200 rounded-lg bg-white my-3">
+        <div v-if="dashboard.haveData" class="min-h-[200px] max-h-1/2 overflow-y-auto">
           <post-list v-if="dashboard.isListType"/>
           <post-grid v-else/>
           <div v-if="dashboard.loading"
-               class="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-full bg-white bg-opacity-60 z-50">
+               class="flex flex-col justify-center items-center fixed top-0 left-0 w-full h-screen bg-white bg-opacity-60 z-50">
             <i class="fas fa-circle-notch fa-spin text-4xl"></i>
-            <p class="pointer-events-auto">Searching posts and added list...</p>
+            <p class="pointer-events-auto">Searching posts...</p>
           </div>
         </div>
 
-        <div v-else class="flex flex-col justify-center items-center w-full h-[600px]">
+        <div v-else class="flex flex-col justify-center items-center w-full min-h-[200px] max-h-[600px]">
           <div v-if="dashboard.loading === true" class="flex flex-col justify-center items-center space-y-2">
             <i class="fas fa-circle-notch fa-spin text-4xl"></i>
             <p>Searching posts...</p>
           </div>
           <p v-else>
-            <search-bar key="onPostSide"/>
+            <search-bar searchKey="getPostFromApi"/>
           </p>
         </div>
 
