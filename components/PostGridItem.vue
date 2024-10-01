@@ -8,7 +8,9 @@
              :src="props.postData.userData.profilePicture" alt="profile_pic_img">
         <p v-else class="text-3xl"><i class="fa-solid fa-circle-user"></i></p>
         <div>
-          <p class="text-gray-800 font-semibold"> {{ truncateText(props.postData.userData.username, 10) }}</p>
+          <p class="text-gray-800 font-semibold"> {{
+              isFull ? props.postData.userData.username : truncateText(props.postData.userData.username, 10)
+            }}</p>
           <p class="text-gray-500 text-sm"> {{ formatDate(props.postData.postDetail.date) }}</p>
         </div>
       </div>
@@ -19,7 +21,9 @@
       </div>
     </div>
     <div class="mb-4">
-      <p class="text-gray-700">{{ truncateText(props.postData.postDetail.content, 25) }} <span
+      <p class="text-gray-700">{{
+          isFull ? props.postData.postDetail.content : truncateText(props.postData.postDetail.content, 25)
+        }} <span
           class="text-gray-500 cursor-pointer">see more</span></p>
     </div>
     <div class="mb-4">
