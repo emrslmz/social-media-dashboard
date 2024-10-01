@@ -22,9 +22,10 @@
     </div>
     <div class="mb-4">
       <p class="text-gray-700">{{
-          isFull ? props.postData.postDetail.content : truncateText(props.postData.postDetail.content, 25)
+          props.isFull ? props.postData.postDetail.content : truncateText(props.postData.postDetail.content, 25)
         }} <span
-          class="text-gray-500 cursor-pointer">see more</span></p>
+           v-if="!props.isFull"
+            class="text-gray-500 cursor-pointer">see more</span></p>
     </div>
     <div class="mb-4">
       <img v-if="props.postData.postDetail.media !== null || isValidImage(props.postData.postDetail.media)"
@@ -64,10 +65,12 @@
 
 export default {
   props: {
+    // postData for display
     postData: {
       type: Object,
       required: true,
     },
+    // if true, w-full on screen and remove truncateText
     isFull: {
       type: Boolean,
       default: false,
