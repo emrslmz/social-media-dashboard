@@ -6,50 +6,75 @@
   </div>
   <div
       :class="props.isSidebarActive ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
-      class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-gray-900 lg:translate-x-0 lg:static lg:inset-0">
+      class="fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-gradient-to-br from-gray-800 to-gray-900 lg:translate-x-0 lg:static lg:inset-0">
 
     <div class="flex items-center justify-center mt-8">
-      <div class="flex items-center">
-        <span class="mx-2 text-2xl font-semibold text-white">SM Monitoring Db</span>
+
+      <div class="relative border-b border-white/20">
+        <h6 class="block antialiased tracking-normal font-sans font-semibold leading-relaxed text-white text-xl">
+          SM Monitoring Db</h6>
       </div>
+
     </div>
-
-
-    <nav class="mt-10" @click="closeSidebar()">
-      <nuxt-link to="/" :class="isActiveRouteClass('index')"
-                 class="flex items-center px-6 py-2 mt-4">
-        <i class="fa-solid fa-gauge text-xl"></i>
-        <span class="mx-3">Dashboard</span>
-      </nuxt-link>
-
-      <nuxt-link to="/Graph" :class="isActiveRouteClass('Graph')"
-                 class="flex items-center px-6 py-2 mt-4">
-        <i class="fa-solid fa-chart-simple text-xl"></i>
-        <span class="mx-3">Statistics</span>
-      </nuxt-link>
-
-      <nuxt-link to="/About" :class="isActiveRouteClass('About')"
-                 class="flex items-center px-6 py-2 mt-4">
-        <i class="fa-regular fa-hand text-xl"></i>
-        <span class="mx-3">About</span>
-      </nuxt-link>
-    </nav>
+    <div class="m-4 pt-10">
+      <ul class="mb-4 flex flex-col gap-1">
+        <li v-for="(menu, index) in menuItems" :key="index" @click="closeSidebar()">
+          <nuxt-link :to="menu.to" aria-current="page">
+            <button
+                :class="isActiveRouteClass(menu.routeName)"
+                class="middle none font-sans font-bold center transition-all text-xs py-3 rounded-lg text-white w-full flex items-center gap-4 px-4 capitalize">
+              <i :class="menu.icon" class="text-2xl"></i>
+              <span class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize">
+                {{ menu.name }}</span>
+            </button>
+          </nuxt-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import {useDashboardStore} from "~/stores/dashboard.js";
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 
 export default {
   props: {
+    // isActive for show menu
     isSidebarActive: {
       type: Boolean,
       required: true,
     },
   },
+  emits: ['close'],
   setup(props, {emit}) {
     const dashboardStore = useDashboardStore();
+    const menuItems = [
+      {
+        name: 'Home',
+        icon: 'fa-solid fa-house-chimney',
+        to: '/',
+        routeName: 'index'
+      },
+      {
+        name: 'Dashboard',
+        icon: 'fa-solid fa-gauge',
+        to: '/Dashboard',
+        routeName: 'Dashboard'
+      },
+      {
+        name: 'Statistics',
+        icon: 'fa-solid fa-chart-simple',
+        to: '/Graph',
+        routeName: 'Graph'
+      },
+      {
+        name: 'About',
+        icon: 'fa-regular fa-hand',
+        to: '/About',
+        routeName: 'About'
+      }
+    ];
 
     const closeSidebar = () => {
       emit('close');
@@ -58,12 +83,13 @@ export default {
     const isActiveRouteClass = (route) => {
       const currentRoute = useRoute();
       return currentRoute.name === route
-          ? 'text-gray-100 bg-gray-700 bg-opacity-25'
-          : 'text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100';
+          ? 'bg-gradient-to-tr from-blue-600 to-blue-400 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40'
+          : 'hover:bg-white/10 bg-white/30';
     };
 
     return {
       props,
+      menuItems,
       dashboardStore,
       closeSidebar,
       isActiveRouteClass,
