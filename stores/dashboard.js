@@ -12,8 +12,11 @@ export const useDashboardStore = defineStore('dashboard', {
         isListType: true,
         loading: false,
         error: null,
+        searchText: '',
 
         searchPostTerm: '',
+
+        isLiveData: false,
 
         includeSearchedItems: false,
         sortCriteria: 'date',
@@ -61,12 +64,29 @@ export const useDashboardStore = defineStore('dashboard', {
             this.loading = false;
         },
 
+        startLiveDataFetching() {
+            if (this.isLiveData && this.searchText) {
+                const params = {keyword: this.searchText};
+
+                const fetchInterval = setInterval(async () => {
+                    await this.fetchPosts(params);
+                }, 60000);
+
+                this.$onAction(({name}) => {
+                    if (name === 'toggleLiveData' && !this.isLiveData) {
+                        clearInterval(fetchInterval);
+                    }
+                });
+            }
+        },
+
+
         mapTwitterPosts(posts) {
             return posts.map(post => ({
                 postDetail: {
                     date: post.creation_date,
                     content: post.text,
-                    media: post.media_url ? post.media_url[0] : null,
+                    media: post.media_url !== [] ? post.media_url[0] : null,
                     likes: post.favorite_count,
                     shares: post.retweet_count,
                     comments: post.reply_count,
@@ -156,6 +176,10 @@ export const useDashboardStore = defineStore('dashboard', {
             this.includeSearchedItems = value;
         },
 
+        toggleLiveData(value) {
+            this.isLiveData = value;
+        },
+
         setSearchTermForOnPost(term) {
             this.searchPostTerm = term
         },
@@ -181,6 +205,9 @@ export const useDashboardStore = defineStore('dashboard', {
             return !isNaN(parsedDate.getTime());
         },
 
+        setSearchText(value) {
+            this.searchText = value;
+        },
 
         clearAllSortSetting() {
             this.filterType = 1;
