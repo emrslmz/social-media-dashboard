@@ -51,16 +51,10 @@ export default {
     const dashboardStore = useDashboardStore();
     const menuItems = [
       {
-        name: 'Home',
-        icon: 'fa-solid fa-house-chimney',
-        to: '/',
-        routeName: 'index'
-      },
-      {
         name: 'Dashboard',
         icon: 'fa-solid fa-gauge',
-        to: '/Dashboard',
-        routeName: 'Dashboard'
+        to: '/',
+        routeName: 'index'
       },
       {
         name: 'Statistics',
