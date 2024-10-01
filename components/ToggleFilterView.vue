@@ -20,7 +20,7 @@
             :key="index"
             :class="filterActiveClass(index + 1)"
             @click="toggleFilterType(index + 1)"
-            class="px-5 py-2 text-xs font-medium transition-colors duration-200 sm:text-sm text-gray-600 hover:bg-gray-100 md:w-44">
+            class="px-5 py-2 text-xs font-medium transition-colors duration-200 sm:text-sm text-gray-600 hover:bg-gray-100 w-full">
           {{ label }} <span v-if="dashboardStore.haveData">({{ postCount(index + 1) }})</span>
         </button>
       </div>

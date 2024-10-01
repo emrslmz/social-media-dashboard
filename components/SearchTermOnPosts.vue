@@ -17,7 +17,17 @@
           <p class="text-2xl text-left font-bold">Use the search button to search within posts.</p>
           <search-bar searchKey="searchPostOnStore"/>
 
-          {{ dashboardStore.filteredAndSearchedPosts }}
+          <div v-if="dashboardStore.searchPostTerm !== ''">
+            <div v-if="dashboardStore.filteredAndSearchedPosts.length">
+              <post-grid-item :post-data="dashboardStore.filteredAndSearchedPosts" :is-full="true" />
+            </div>
+            <div v-else>
+              The word {{ dashboardStore.searchPostTerm}} you were looking for was not found in the data you filtered.
+            </div>
+          </div>
+          <div v-else>
+            Search from the data you filtered.
+          </div>
         </div>
 
       </div>
