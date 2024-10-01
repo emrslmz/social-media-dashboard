@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-wrap justify-center items-center mx-auto" v-if="dashboardStore.filteredPosts.length">
+  <div class="flex flex-wrap justify-center items-center mx-auto p-1" v-if="dashboardStore.filteredPosts.length">
     <div v-for="(post, index) in dashboardStore.filteredPosts"
          :key="index"
-         @click="togglePostDetailModal(true, post)" class="w-full sm:w-auto">
+         @click="togglePostDetailModal(true, post)" class="flex justify-center items-center w-full sm:w-auto">
       <post-grid-item :post-data="post"/>
     </div>
   </div>
