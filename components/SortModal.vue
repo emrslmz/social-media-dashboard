@@ -1,15 +1,16 @@
 <template>
   <div
       class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="h-screen sm:h-4/6 w-full sm:w-2/3 md:w-3/5 lg:w-2/4 overflow-y-auto sm:rounded-2xl bg-white py-5 px-10">
-      <div class="flex flex-col justify-between items- space-y-4 w-full">
+    <div
+        class="h-[70%] sm:h-4/6 w-[90%] sm:w-2/3 lg:w-4/5 xl:w-3/5 2xl:w-2/5 overflow-y-auto sm:rounded-2xl bg-white p-5 sm:p-10 rounded-lg">
+      <div class="flex flex-col justify-between space-y-4 w-full">
         <div class="flex justify-end">
           <p @click="onClose()" class="cursor-pointer">
             <i class="fa-solid fa-xmark text-2xl"></i>
           </p>
         </div>
 
-        <div class="flex justify-between items-start">
+        <div class="flex flex-col lg:flex-row justify-between items-start">
           <div class="flex flex-col justify-start items-start space-y-5 p-4 w-full">
 
             <div>
@@ -51,9 +52,9 @@
             </div>
 
           </div>
-          <div class="flex flex-col justify-start items-start  space-y-5 p-4 w-full">
+          <div class="flex flex-col justify-start items-start space-y-5 p-4 w-full">
             <h2 class="text-xl font-semibold mb-2">Filter by date range</h2>
-            <div class="flex flex-col justify-center items-center space-y-10">
+            <div class="flex flex-row md:flex-col justify-center items-center space-x-3 md:space-x-0 md:space-y-10">
               <div class="relative max-w-sm">
                 Start date
                 <input v-model="selectedStartDate" id="default-datepicker" type="date"
@@ -84,7 +85,7 @@
             <span>Save</span>
           </button>
         </div>
-        <p class="text-blue-500 text-right pr-2" @click="onClearAllSort()">clear all filter</p>
+        <p class="text-blue-500 text-right pr-2 cursor-pointer" @click="onClearAllSort()">clear all filter</p>
       </div>
 
     </div>
@@ -96,13 +97,13 @@ import {ref} from 'vue';
 import {useDashboardStore} from '@/stores/dashboard';
 
 export default {
+  emits: ['close'],
   setup(props, {emit}) {
     const dashboardStore = useDashboardStore();
     const selectedCriteria = ref(dashboardStore.sortCriteria);
     const selectedDirection = ref(dashboardStore.sortDirection);
     const selectedStartDate = ref(dashboardStore.sortStartDate);
     const selectedEndDate = ref(dashboardStore.sortEndDate);
-
     const saveSort = () => {
       dashboardStore.updateSortCriteria(selectedCriteria.value, selectedDirection.value);
       dashboardStore.setStartDate(selectedStartDate.value);
