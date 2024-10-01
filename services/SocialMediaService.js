@@ -1,7 +1,6 @@
 export default class DashboardServices {
     constructor() {
         this.config = useRuntimeConfig().public;
-
     }
 
     createQueryString(params) {
