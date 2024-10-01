@@ -1,38 +1,40 @@
-# Sosyal Medya İzleme Dashboard
+# Sosyal Medya İzleme Dashboard'u
 
-Bu proje, kullanıcıların belirli anahtar kelimeleri veya hashtag'leri içeren sosyal medya gönderilerini aratarak  izleyebilecekleri bir web uygulaması olarak geliştirilmiştir. Uygulamada Twitter, Instagram (free api request expired), Facebook verileri filtrelerek, sıralayarak, grid, list formatında görüntülenebilir.
+Proje belirli anahtar kelimeleri veya hashtag'leri içeren sosyal medya gönderilerini gerçek zamanlı olarak izlemelerini sağlayan bir web uygulamasıdır.
 
-## Özellikler
+## Teknolojiler ve Kütüphaneler
+
+- **Framework:** Nuxt.js, VueJS
+- **State Management:** Pinia
+- **Stil Kütüphanesi:** Tailwind CSS
 - **API Entegrasyonu**: RapidAPI üzerinden sosyal medya platformlarından (Twitter, Facebook, Instagram) veriler çekildi.
-- **Gönderi Listeleme**: Sosyal medya gönderilerini liste veya grid formatında görüntülenebilir.
-    - Platform Adı
-    - Kullanıcı Adı
-    - Gönderi İçeriği
-    - Gönderi Tarihi ve Saati
-    - Beğeni, Yorum, Paylaşım Sayıları
-- **Filtreleme ve Sıralama**:
-    - Platforma göre filtreleme
-    - Anahtar kelimeye göre filtreleme
-    - Gönderileri tarih ve etkileşim sayısına göre sıralama
-- **Anlık Arama**: Gönderiler içinde anlık arama yapma.
-- **Veri Görselleştirme**: Platformlara göre gönderi sayısı ve zaman içindeki dağılımı grafiklerle gösterme.
-- **Responsive Tasarım**: Mobil ve masaüstü cihazlarda uyumlu çalışma.
+- **Veri Görselleştirme:** Chart.js
 
-## Kullanılan Teknolojiler
-- **Framework**: [Nuxt.js](https://nuxtjs.org/)
-- **State Management**: [Pinia](https://pinia.vuejs.org/)
-- **Stil Kütüphanesi**: [Tailwind CSS](https://tailwindcss.com/)
-- **Veri Görselleştirme**: [Chart.js](https://www.chartjs.org/) veya [ECharts](https://echarts.apache.org/en/index.html) (opsiyonel)
-- **API Entegrasyonu**: [RapidAPI](https://rapidapi.com/)
+## Bileşenler
 
-## Kurulum
-Projeyi yerel bilgisayarınıza kurmak ve çalıştırmak için aşağıdaki adımları izleyin.
+- Dashboard Page
+- PostList Component 
+- PostGrid Component
+- PostItem Component
+- PostChart Component
+- SortModal Component
+- ToggleFilterView Component
+- SearchBar Component
 
 ### Gereksinimler
 - Node.js (v14 veya daha yeni)
 - NPM veya Yarn
 
-### Adımlar
-1. Depoyu klonlayın:
+## Kurulum
+
+1. Bu depoyu klonlayın (SSH):
    ```bash
-   git clone https://github.com/kullaniciadi/sosyal-medya-dashboard.git
+   git clone git@github.com:emrslmz/social-media-dashboard.git
+   
+2. Proje NPM paketlerini yükleyin:
+    ```bash
+   npm install
+
+3. Projeyi localde çalıştırın:
+    ```bash
+   nuxt dev
