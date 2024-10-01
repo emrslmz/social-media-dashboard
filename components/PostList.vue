@@ -42,7 +42,7 @@
           <p class="text-sm font-normal text-gray-600">{{ post.source }}.com</p>
         </div>
       </td>
-      <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+      <td class="py-4 text-sm font-medium whitespace-nowrap">
         <div
             class="px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60 flex justify-start items-center">
           <img v-if="isValidImage(post.userData.profilePicture)"
@@ -52,7 +52,7 @@
                class="flex justify-center items-center w-6 h-6 rounded-full shrink-0 text-lg">
             <i class="fa-solid fa-circle-user"></i>
           </div>
-          {{ truncateText(post.userData.username, 10) }}
+          {{ truncateText(post.userData.username, 16) }}
         </div>
       </td>
       <td class="px-4 py-4 text-sm whitespace-nowrap">
