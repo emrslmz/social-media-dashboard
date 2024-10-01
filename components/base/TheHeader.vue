@@ -5,7 +5,7 @@
         <i class="fa-solid fa-bars text-xl"></i>
       </button>
 
-      <nuxt-link v-if="dashboardStore.haveData" to="/Graph"  class="text-indigo-500 focus:outline-none">
+      <nuxt-link v-if="dashboardStore.haveData" to="/Graph"  class="text-xs text-indigo-500 focus:outline-none px-5">
         Statistics are ready! Click to review. Go to Graph page.
       </nuxt-link>
 
