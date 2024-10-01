@@ -30,6 +30,5 @@ export default {
       this.sidebarOpen = value;
     }
   },
-
 };
 </script>
