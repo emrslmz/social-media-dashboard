@@ -17,6 +17,7 @@
 import {useDashboardStore} from "~/stores/dashboard.js";
 
 export default {
+  emits: ['close'],
   setup(props, {emit}) {
     const dashboardStore = useDashboardStore();
 
