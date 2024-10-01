@@ -28,7 +28,6 @@ export default defineNuxtConfig({
             API_FACEBOOK_KEY: process.env.API_FACEBOOK_KEY,
             API_FACEBOOK_URL: process.env.API_FACEBOOK_URL,
             API_FACEBOOK_HOST: process.env.API_FACEBOOK_HOST
-
         }
     },
 })
