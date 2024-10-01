@@ -35,7 +35,7 @@
     <tbody class="divide-y divide-gray-200" v-if="dashboardStore.filteredPosts.length">
     <tr v-for="(post, index) in dashboardStore.filteredPosts" :key="index">
       <td class="px-4 py-4 text-sm font-medium whitespace-nowrap text-left">
-        <div>
+        <div class="flex items-center space-x-2">
           <p class="font-medium text-gray-800">
             <i class="fa-brands" :class="getIconClass(post.source)"></i>
           </p>

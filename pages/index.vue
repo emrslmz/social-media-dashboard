@@ -20,7 +20,7 @@
       <toggle-filter-view/>
 
       <div class="border border-gray-200 rounded-lg bg-white my-3">
-        <div v-if="dashboard.haveData" class="min-h-[200px] max-h-1/2 overflow-y-auto">
+        <div v-if="dashboard.haveData" class="min-h-[100px] max-h-1/2 overflow-y-auto">
           <post-list v-if="dashboard.isListType"/>
           <post-grid v-else/>
           <div v-if="dashboard.loading"

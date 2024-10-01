@@ -13,8 +13,8 @@
       </button>
     </div>
 
-    <div class="flex flex-col 2xl:flex-row justify-between space-y-2 w-full">
-      <div class="inline-flex justify-center bg-white border divide-x rounded-lg shadow-sm rtl:flex-row-reverse xl:w-1/2">
+    <div class="flex flex-col 2xl:flex-row justify-between space-y-2 w-full rounded-lg">
+      <div class="inline-flex justify-center rounded-lg bg-white border divide-x shadow-sm rtl:flex-row-reverse xl:w-1/2">
         <button
             v-for="(label, index) in filters"
             :key="index"

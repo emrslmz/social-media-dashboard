@@ -18,6 +18,9 @@ export const useDashboardStore = defineStore('dashboard', {
         includeSearchedItems: false,
         sortCriteria: 'date',
         sortDirection: 'asc',
+
+        sortStartDate: null,
+        sortEndDate: null,
     }),
     actions: {
         async getTwitterPosts(params) {
@@ -153,6 +156,37 @@ export const useDashboardStore = defineStore('dashboard', {
         setSearchTermForOnPost(term) {
             this.searchPostTerm = term
         },
+
+        setStartDate(date) {
+            if (date && this.isValidDate(date)) { // Check if the date is valid
+                this.sortStartDate = new Date(date).toISOString().split('T')[0]; // Format as "yyyy-MM-dd"
+            } else {
+                this.sortStartDate = null; // Reset or handle the invalid case
+            }
+        },
+
+        setEndDate(date) {
+            if (date && this.isValidDate(date)) { // Check if the date is valid
+                this.sortEndDate = new Date(date).toISOString().split('T')[0]; // Format as "yyyy-MM-dd"
+            } else {
+                this.sortEndDate = null; // Reset or handle the invalid case
+            }
+        },
+
+        isValidDate(date) {
+            const parsedDate = new Date(date);
+            return !isNaN(parsedDate.getTime()); // Returns true if the date is valid
+        },
+
+
+        clearAllSortSetting() {
+            this.filterType = 1;
+            this.searchPostTerm = '';
+            this.sortCriteria = 'date';
+            this.sortDirection = 'asc';
+            this.sortStartDate = null;
+            this.sortEndDate = null;
+        },
     },
 
     getters: {
@@ -162,23 +196,49 @@ export const useDashboardStore = defineStore('dashboard', {
 
         filteredPosts: (state) => {
             if (!state.posts) {
-                return []; // posts null ise boş dizi döndür
+                return []; // Return empty array if posts is null
             }
 
             const filteredData = state.posts.filter((post) => {
                 switch (state.filterType) {
                     case 1:
-                        return true; // Tüm veriler
+                        return true; // All data
                     case 2:
-                        return post.source === 'twitter'; // Sadece Twitter
+                        return post.source === 'twitter'; // Only Twitter
                     case 3:
-                        return post.source === 'instagram'; // Sadece Instagram
+                        return post.source === 'instagram'; // Only Instagram
                     case 4:
-                        return post.source === 'facebook'; // Sadece Facebook
+                        return post.source === 'facebook'; // Only Facebook
                     default:
-                        return true; // Varsayılan olarak tüm veriler
+                        return true; // Default to all data
                 }
+            }).filter(post => {
+                const postDate = new Date(post.postDetail.date);
+                const startDate = state.sortStartDate ? new Date(state.sortStartDate) : null;
+                const endDate = state.sortEndDate ? new Date(state.sortEndDate) : null;
+
+                // Filter based on start and end dates
+                if (startDate && endDate) {
+                    return postDate >= startDate && postDate <= endDate;
+                } else if (startDate) {
+                    return postDate >= startDate;
+                } else if (endDate) {
+                    return postDate <= endDate;
+                }
+                return true; // No date filter applied
             });
+
+            // Search term filtering
+            if (state.searchPostTerm) {
+                return filteredData.filter(post =>
+                    post.postDetail.content.toLowerCase().includes(state.searchPostTerm.toLowerCase())
+                ).map(post => ({
+                    postDetail: post.postDetail,
+                    userData: post.userData,
+                    source: post.source,
+                    count: post.count,
+                }));
+            }
 
             return filteredData.sort((a, b) => {
                 const getSortValue = (post) => {
