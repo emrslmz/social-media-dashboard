@@ -3,7 +3,7 @@
        class="bg-white p-4 rounded-lg my-3 mx-2 border cursor-pointer">
     <div class="flex items-center justify-between mb-4 w-full">
       <div class="flex items-center space-x-2">
-        <img v-if="isValidImage(props.postData.userData.profilePicture)"
+        <img v-if="hasValidImage(props.postData.userData.profilePicture)"
              class="object-cover w-8 h-8 rounded-full"
              :src="props.postData.userData.profilePicture" alt="profile_pic_img">
         <p v-else class="text-3xl"><i class="fa-solid fa-circle-user"></i></p>
@@ -28,7 +28,7 @@
             class="text-gray-500 cursor-pointer">see more</span></p>
     </div>
     <div class="mb-4">
-      <img v-if="props.postData.postDetail.media !== null || isValidImage(props.postData.postDetail.media)"
+      <img v-if="hasValidImage(props.postData.postDetail.media)"
            :src="props.postData.postDetail.media"
            alt="Post Image"
            :class="props.isFull ? 'h-[300px] object-contain': 'h-48 object-cover'"
@@ -92,15 +92,19 @@ export default {
       return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
     };
 
-    const isValidImage = (url) => {
-      return /\.(png|jpg|jpeg|gif|bmp|webp)$/i.test(url);
+
+    const hasValidImage = (media) => {
+      if (media !== null) {
+        return /\.(png|jpg|jpeg|gif|bmp|webp)$/i.test(media);
+      }
+      return false;
     };
 
     return {
       props,
       getIconClass,
       truncateText,
-      isValidImage
+      hasValidImage
     }
   }
 };
