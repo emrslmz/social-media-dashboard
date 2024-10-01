@@ -1,5 +1,7 @@
 <template>
+  <!--  disabled-->
   <div
+      v-if="false"
       class="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 z-50">
     <div
         class="h-full sm:h-5/6 w-full sm:w-2/3 md:w-3/5 lg:w-2/4 sm:rounded-2xl bg-white py-5">
@@ -47,6 +49,7 @@ import PostGridItem from "~/components/PostGridItem.vue";
 
 export default {
   components: {SearchBar, PostGridItem},
+  emits: ['close'],
   setup(props, {emit}) {
     const dashboardStore = useDashboardStore();
 
