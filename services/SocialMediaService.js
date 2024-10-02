@@ -11,7 +11,7 @@ export default class DashboardServices {
     async getTwitterPosts(params) {
         const queryString = this.createQueryString({
             query: params.keyword || '',
-            section: 'latest',
+            section: params.recent ? 'latest' : 'top',
         });
 
         const url = `${this.config.API_TWITTER_URL}${queryString}`;
@@ -34,7 +34,6 @@ export default class DashboardServices {
     async getInstagramPosts(params) {
         const queryString = this.createQueryString({
             keyword: params.keyword || '',
-            recent_posts: true,
         });
         const url = `${this.config.API_INSTAGRAM_URL}${queryString}`;
         const response = await fetch(url, {
@@ -54,6 +53,7 @@ export default class DashboardServices {
     async getFacebookPosts(params) {
         const queryString = this.createQueryString({
             query: params.keyword || '',
+            recent_posts: !!params.recent,
         });
 
         const url = `${this.config.API_FACEBOOK_URL}${queryString}`;
