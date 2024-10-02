@@ -50,14 +50,6 @@
           </span>
         </button>
         <hr>
-        <button
-            class="flex rounded-md px-4 py-2 text-sm text-gray-700 cursor-pointer w-full z-10"
-            :class="selectedDirection === direction.value ? 'bg-green-100' : 'hover:bg-gray-100'"
-            v-for="direction in sortDirections" :key="direction.value" @click="selectDirection(direction.value)">
-          <span class="flex items-center">
-            <span class="text-gray-700">{{ direction.label }} <i :class="direction.icon"></i></span>
-          </span>
-        </button>
       </div>
     </div>
   </div>
