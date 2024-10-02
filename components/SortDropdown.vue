@@ -92,8 +92,8 @@ export default {
     };
 
     const selectDirection = (value) => {
-      selectedDirection.value = value; // Seçili yönü ayarla
-      saveSort(); // Değişiklikleri kaydet
+      selectedDirection.value = value;
+      saveSort();
     };
 
 
@@ -108,8 +108,8 @@ export default {
       dashboardStore.clearAllSortSetting();
       selectedCriteria.value = dashboardStore.sortCriteria;
       selectedDirection.value = dashboardStore.sortDirection;
-      selectedStartDate.value = ''; // Başlangıç tarihini temizle
-      selectedEndDate.value = ''; // Bitiş tarihini temizle
+      selectedStartDate.value = '';
+      selectedEndDate.value = '';
     };
 
     const saveStartDate = () => {
@@ -139,9 +139,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.hidden {
-  display: none;
-}
-</style>
