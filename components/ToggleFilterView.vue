@@ -61,12 +61,9 @@
 
       <div class="flex justify-center lg:justify-end space-x-2 w-full lg:w-1/3 mb-3 lg:mb-0">
 
-        <button
-            @click="toggleSortModal(true)"
-            class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100 h-12 px-3 gap-x-2 text-xs xl:text-base w-1/2">
-          <i class="fa-solid fa-arrow-up-a-z"></i>
-          <span>Sort</span>
-        </button>
+        <div class="w-1/2">
+          <sort-dropdown/>
+        </div>
         <button
             @click="toggleListType(!dashboardStore.isListType)"
             class="flex items-center justify-center text-gray-700 transition-colors duration-200 bg-white border rounded-lg hover:bg-gray-100 h-12 px-3 gap-x-2 text-xs xl:text-base w-1/2">
@@ -133,9 +130,6 @@ export default defineComponent({
       dashboardStore.changeIsListType(value);
     };
 
-    const toggleSortModal = (value) => {
-      isVisibleSortModal.value = value;
-    };
 
     const toggleSearchTermOnPostInput = (value) => {
       isVisibleSearchTermOnPostsInput.value = value;
@@ -145,12 +139,16 @@ export default defineComponent({
       dashboardStore.toggleIncludeSearchedItems(!dashboardStore.includeSearchedItems);
     };
 
+    const toggleSortModal = (value) => {
+      isVisibleSortModal.value = value;
+    };
+
     const toggleLiveDataCheckbox = () => {
       dashboardStore.toggleLiveData(!dashboardStore.isLiveData);
       if (dashboardStore.isLiveData === true) {
-        dashboardStore.toggleIncludeSearchedItems(true);
-        dashboardStore.startLiveDataFetching();
+        dashboardStore.toggleIncludeSearchedItems(false);
       }
+      dashboardStore.startLiveDataFetching();
     }
 
     return {
@@ -166,7 +164,7 @@ export default defineComponent({
       toggleSortModal,
       toggleSearchTermOnPostInput,
       toggleIncludeSearchedItemsCheckbox,
-      toggleLiveDataCheckbox
+      toggleLiveDataCheckbox,
     };
   },
 });
