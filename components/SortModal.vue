@@ -32,6 +32,7 @@
                   <input type="radio" value="comments" v-model="selectedCriteria" class="mr-2 text-blue-600"/>
                   <span class="text-gray-700">Comments <i class="fa-regular fa-comment"></i></span>
                 </label>
+
               </div>
             </div>
 
