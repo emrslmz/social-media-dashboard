@@ -14,7 +14,7 @@ export const useDashboardStore = defineStore('dashboard', {
         error: null,
         searchText: '',
 
-        isRecentPostSetting: true,
+        isRecentPostSetting: false,
 
         searchPostTerm: '',
 
