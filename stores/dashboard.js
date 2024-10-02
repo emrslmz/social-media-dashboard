@@ -14,9 +14,13 @@ export const useDashboardStore = defineStore('dashboard', {
         error: null,
         searchText: '',
 
+        isRecentPostSetting: true,
+
         searchPostTerm: '',
 
         isLiveData: false,
+        countdown: 10,
+        defaultCountdown: 10,
 
         includeSearchedItems: false,
         sortCriteria: 'date',
@@ -41,9 +45,10 @@ export const useDashboardStore = defineStore('dashboard', {
 
         async fetchPosts(params) {
             this.loading = true;
+            const convertParams = {keyword: params.keyword, recent: this.isRecentPostSetting}
             const [twitterPosts, facebookPosts, instagramPosts] = await Promise.all([
-                this.getTwitterPosts(params),
-                this.getFacebookPosts(params),
+                this.getTwitterPosts(convertParams),
+                this.getFacebookPosts(convertParams),
             ]);
 
             const newTwitterPosts = this.mapTwitterPosts(twitterPosts.results);
@@ -64,19 +69,26 @@ export const useDashboardStore = defineStore('dashboard', {
             this.loading = false;
         },
 
-        startLiveDataFetching() {
+        async startLiveDataFetching() {
+            this.countdown = this.defaultCountdown;
+
             if (this.isLiveData && this.searchText) {
                 const params = {keyword: this.searchText};
 
-                const fetchInterval = setInterval(async () => {
-                    await this.fetchPosts(params);
-                }, 60000);
-
-                this.$onAction(({name}) => {
-                    if (name === 'toggleLiveData' && !this.isLiveData) {
-                        clearInterval(fetchInterval);
+                const countdownTimer = setInterval(() => {
+                    this.countdown -= 1;
+                    if (this.countdown <= 0) {
+                        this.fetchPosts(params);
+                        this.countdown = this.defaultCountdown;
                     }
-                });
+                }, 1000);
+
+
+                this.cleanupTimers = () => {
+                    clearInterval(countdownTimer);
+                };
+            } else {
+                this.cleanupTimers && this.cleanupTimers();
             }
         },
 
@@ -209,6 +221,10 @@ export const useDashboardStore = defineStore('dashboard', {
             this.searchText = value;
         },
 
+        setRecentPostSetting(value) {
+            this.isRecentPostSetting = value;
+        },
+
         clearAllSortSetting() {
             this.filterType = 1;
             this.searchPostTerm = '';
@@ -292,6 +308,8 @@ export const useDashboardStore = defineStore('dashboard', {
                 return state.sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
             });
         },
+
+        remainingTime: (state) => state.countdown,
 
     }
 })
