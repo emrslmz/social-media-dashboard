@@ -38,7 +38,8 @@ export const useDashboardStore = defineStore('dashboard', {
             return await new DashboardServices().getFacebookPosts(params);
         },
 
-        // instagram api request expired
+        // %% instagram api request expired
+
         // async getInstagramPosts(params) {
         //     return await new DashboardServices().getInstagramPosts(params);
         // },
@@ -46,7 +47,7 @@ export const useDashboardStore = defineStore('dashboard', {
         async fetchPosts(params) {
             this.loading = true;
             const convertParams = {keyword: params.keyword, recent: this.isRecentPostSetting}
-            const [twitterPosts, facebookPosts, instagramPosts] = await Promise.all([
+            const [twitterPosts, facebookPosts] = await Promise.all([
                 this.getTwitterPosts(convertParams),
                 this.getFacebookPosts(convertParams),
             ]);
@@ -137,26 +138,28 @@ export const useDashboardStore = defineStore('dashboard', {
             })) || [];
         },
 
-        mapInstagramPosts(posts) {
-            return posts.media.map(post => ({
-                postDetail: {
-                    date: new Date(post.timestamp * 1000),
-                    content: post.message,
-                    media: post.video_subtitles_uri ? post.video_subtitles_uri : null,
-                    likes: post.like_count,
-                    shares: post.reshare_count,
-                    comments: post.comment_count,
-                },
-                userData: {
-                    userId: post.user.id,
-                    username: post.user.username,
-                    profilePicture: post.user.profile_pic_url ? post.author.profile_pic_url : null,
-                    profileUrl: post.user.url ? post.user.url : null,
-                },
-                source: 'facebook',
-                count: this.instagramPostCount,
-            })) || [];
-        },
+        // %% instagram api request expired
+
+        // mapInstagramPosts(posts) {
+        //     return posts.media.map(post => ({
+        //         postDetail: {
+        //             date: new Date(post.timestamp * 1000),
+        //             content: post.message,
+        //             media: post.video_subtitles_uri ? post.video_subtitles_uri : null,
+        //             likes: post.like_count,
+        //             shares: post.reshare_count,
+        //             comments: post.comment_count,
+        //         },
+        //         userData: {
+        //             userId: post.user.id,
+        //             username: post.user.username,
+        //             profilePicture: post.user.profile_pic_url ? post.author.profile_pic_url : null,
+        //             profileUrl: post.user.url ? post.user.url : null,
+        //         },
+        //         source: 'facebook',
+        //         count: this.instagramPostCount,
+        //     })) || [];
+        // },
 
         async deletePosts() {
             this.loading = true;
