@@ -76,7 +76,7 @@
 
   </div>
 
-  <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>
+<!--  <sort-modal v-if="isVisibleSortModal" @close="toggleSortModal(false)"/>-->
 
 </template>
 
