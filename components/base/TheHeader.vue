@@ -12,7 +12,7 @@
 
       <a v-if="dashboardStore.isLiveData"
          class="text-xs text-green-500 focus:outline-none px-5">
-        <i class="fa-solid fa-circle"></i> Live monitoring active. Updates every 60s.
+        <i class="fa-solid fa-circle"></i> Live monitoring active. Remaining {{ dashboardStore.countdown }}
       </a>
 
 
