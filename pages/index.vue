@@ -3,13 +3,15 @@
     <div class="p-5 mx-auto h-full">
       <div class="flex flex-col">
         <div class="sm:flex sm:items-center sm:justify-between">
-          <div>
+          <div class="cursor-pointer" @click="toggleRecentPostSetting()">
             <div class="flex items-center gap-x-3">
-              <h2 class="text-3xl font-medium text-gray-800">Top Posts</h2>
-
+              <p class="text-2xl font-medium text-gray-800"><i
+                  class="fa-solid fa-arrows-rotate pr-2"></i>{{
+                  dashboardStore.isRecentPostSetting ? 'Latest ' : 'Top '
+                }}
+                Posts</p>
             </div>
-
-            <p class="mt-1 text-xs text-gray-500">See their posts by typing a hashtag into the search</p>
+            <p class="mt-1 text-xs text-gray-500">Click to see popular or latest posts.</p>
           </div>
 
           <search-bar searchKey="getPostFromApi" v-if="dashboardStore.haveData || dashboardStore.loading"/>
@@ -57,6 +59,11 @@ import PostBottomDetail from "~/components/PostBottomDetail.vue";
 
 const dashboardStore = useDashboardStore();
 const route = useRoute();
+
+
+const toggleRecentPostSetting = () => {
+  dashboardStore.setRecentPostSetting(!dashboardStore.isRecentPostSetting);
+};
 
 onMounted(() => {
   if (route.query.searchText) {
